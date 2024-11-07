@@ -44,7 +44,7 @@ void setup()
 void loop()
 {
   unsigned long int restart = millis();
-  if (restart - var >= 500) {
+  if (restart - var >= 250) {
 
     // Lê o valor do potenciômetro
     int read_pot = analogRead(pin_pot);
@@ -56,17 +56,19 @@ void loop()
     int read_ldr = analogRead(pin_ldr);
     
 
-    //grafico 1
-    //int lum = 0.0003*pow(read_ldr,1.6972); //eq potencia
-    //int lum = (0.1165*read_ldr - 94.681); //eq linear
-    //int lum = 9.1578*exp(0.0011*read_ldr); //eq exp
-    //int lum = 163.15*log(read_ldr - 1083.6); //eq ln  
-
     //grafico 1.1
     //int lum = 0.0336*pow(read_ldr,1.0297); //eq potencia
-    int lum = (0.1198*read_ldr - 43.307); //eq linear (melhor leitura)
+    //int lum = (0.1198*read_ldr - 43.307); //eq linear (melhor leitura)
     //int lum = 5.314*exp(0.0013*read_ldr); //eq exp
     //int lum = 67.564*log(read_ldr - 346.92); //eq ln  
+
+    //grafico 2.2
+    //int lum = 0.3697*pow(read_ldr,0.7435); //eq potencia
+    //int lum = (0.0834*read_ldr + 1.0181); //eq linear (melhor leitura)
+    int lum = 6.1065*exp(0.0036*read_ldr); //eq exp
+    //int lum = 13.745*log(read_ldr - 46.198); //eq ln  
+
+  
 
   
     // Filtro de média móvel
