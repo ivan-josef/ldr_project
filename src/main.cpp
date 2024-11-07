@@ -10,6 +10,8 @@
 #define pwm_channel 0  // usando o canal pwm 0
 #define pwm_freq 1000  // Frequência do PWM (1khz)
 #define pwm_res 8      // Resolução do PWM (8 bits -> valores de 0 a 255)
+
+// variavel para controle de tempo
 int var = 0;
 
 // Parâmetros do filtro de média móvel
@@ -29,10 +31,14 @@ void setup()
   ledcSetup(pwm_channel, pwm_freq, pwm_res);
   ledcAttachPin(pin_led, pwm_channel);
 
+
   // Inicializa o array de leituras com 0
   for (int i = 0; i < numReadings; i++) {
     readings[i] = 0;
   }
+
+
+
 }
 
 void loop()
@@ -42,6 +48,7 @@ void loop()
 
     // Lê o valor do potenciômetro
     int read_pot = analogRead(pin_pot);
+
     int pwm_value = map(read_pot, 0, 4095, 0, 255);
     ledcWrite(pwm_channel, pwm_value);  // Ajusta a luminosidade do LED
 
@@ -78,9 +85,6 @@ void loop()
     Serial.print("Pot:");
     Serial.println(read_pot);
   
-    
-
-    
 
     var = restart;
   }
