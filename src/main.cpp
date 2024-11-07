@@ -10,8 +10,6 @@
 #define pwm_channel 0  // usando o canal pwm 0
 #define pwm_freq 1000  // Frequência do PWM (1khz)
 #define pwm_res 8      // Resolução do PWM (8 bits -> valores de 0 a 255)
-
-// variavel para controle de tempo
 int var = 0;
 
 // Parâmetros do filtro de média móvel
@@ -31,14 +29,10 @@ void setup()
   ledcSetup(pwm_channel, pwm_freq, pwm_res);
   ledcAttachPin(pin_led, pwm_channel);
 
-
   // Inicializa o array de leituras com 0
   for (int i = 0; i < numReadings; i++) {
     readings[i] = 0;
   }
-
-
-
 }
 
 void loop()
@@ -48,7 +42,6 @@ void loop()
 
     // Lê o valor do potenciômetro
     int read_pot = analogRead(pin_pot);
-
     int pwm_value = map(read_pot, 0, 4095, 0, 255);
     ledcWrite(pwm_channel, pwm_value);  // Ajusta a luminosidade do LED
 
@@ -67,9 +60,6 @@ void loop()
     //int lum = (0.0834*read_ldr + 1.0181); //eq linear (melhor leitura)
     int lum = 6.1065*exp(0.0036*read_ldr); //eq exp
     //int lum = 13.745*log(read_ldr - 46.198); //eq ln  
-
-  
-
   
     // Filtro de média móvel
     total = total - readings[readIndex];  // Subtrai a leitura mais antiga
@@ -81,12 +71,20 @@ void loop()
     average = total / numReadings;
 
     // Exibe os valores no Serial Monitor
-    Serial.print("Ldr (média):");
-    Serial.print(average);
-    Serial.print(",");
-    Serial.print("Pot:");
-    Serial.println(read_pot);
-  
+    if (average <= 0){
+      Serial.print("Ldr (média):");
+      Serial.print(0);
+      Serial.print(",");
+      Serial.print("Pot:");
+      Serial.println(read_pot);
+    }
+    else{
+      Serial.print("Ldr (média):");
+      Serial.print(average);
+      Serial.print(",");
+      Serial.print("Pot:");
+      Serial.println(read_pot);
+    }
 
     var = restart;
   }
